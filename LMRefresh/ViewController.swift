@@ -19,12 +19,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = UIRectEdge.Bottom | UIRectEdge.Left | UIRectEdge.Right
+        self.edgesForExtendedLayout = [UIRectEdge.Bottom, UIRectEdge.Left, UIRectEdge.Right]
         
         self.title = "LMRefresh"
         self.automaticallyAdjustsScrollViewInsets = false
         
-        var tv = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height - 64), style: .Plain)
+        let tv = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height - 64), style: .Plain)
         self.view.addSubview(tv)
         tableView = tv
         tableView.delegate = self
@@ -74,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell")
         if cell == nil {
             cell = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
         }

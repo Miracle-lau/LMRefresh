@@ -36,11 +36,11 @@ class LMRefreshHeader: NSObject {
         lastPosition = 0
         headerHeight = 35
         
-        var scrollWidth = scrollView!.frame.size.width
-        var imageWidth: CGFloat = 13
-        var imageHeight = headerHeight
-        var labelWidth: CGFloat = 130
-        var labelHeight = headerHeight
+        let scrollWidth = scrollView!.frame.size.width
+        let imageWidth: CGFloat = 13
+        let imageHeight = headerHeight
+        let labelWidth: CGFloat = 130
+        let labelHeight = headerHeight
         
         headerView = UIView()
         headerView!.frame = CGRectMake(0, -headerHeight-10, scrollView!.frame.size.width, headerHeight)
@@ -67,14 +67,14 @@ class LMRefreshHeader: NSObject {
         
         scrollView!.addObserver(self,
             forKeyPath: "contentOffset",
-            options: NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old,
+            options: [NSKeyValueObservingOptions.New, NSKeyValueObservingOptions.Old],
             context: nil)
     }
     
     /**
      *  当属性的值发生变化时，自动调用此方法
      */
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if keyPath != "contentOffset" {
             return
@@ -85,7 +85,7 @@ class LMRefreshHeader: NSObject {
         
         // 判断是否在拖动scrollView
         if scrollView!.dragging {
-            var currentPosition = scrollView!.contentOffset.y
+            let currentPosition = scrollView!.contentOffset.y
             // 判断是否正在刷新  否则不做任何操作
             if !isRefresh {
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -94,7 +94,7 @@ class LMRefreshHeader: NSObject {
                         self.headerLabel!.text = RELEASE_TO_REFRESH
                         self.headerIV!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
                     } else {
-                        var currentPosition = self.scrollView!.contentOffset.y
+                        let currentPosition = self.scrollView!.contentOffset.y
                         // 判断滑动方向 以让“松开以刷新”变回“下拉可刷新”状态
                         if currentPosition - self.lastPosition > 5 {
                             self.lastPosition = currentPosition
@@ -154,6 +154,6 @@ class LMRefreshHeader: NSObject {
     
     deinit {
         scrollView!.removeObserver(self, forKeyPath: "contentOffset", context: nil)
-        println("LMRefreshHeader is being deInitialized.")
+        print("LMRefreshHeader is being deInitialized.")
     }
 }

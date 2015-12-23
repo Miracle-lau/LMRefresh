@@ -37,11 +37,11 @@ class LMRefreshFooter: NSObject {
         
         scrollView!.addObserver(self,
             forKeyPath: "contentOffset",
-            options: NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old,
+            options: [NSKeyValueObservingOptions.New, NSKeyValueObservingOptions.Old],
             context: nil)
     }
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath != "contentOffset" {
             return
         }
@@ -61,7 +61,7 @@ class LMRefreshFooter: NSObject {
         footerView!.frame = CGRectMake(0, contentHeight, scrollWidth, footerHeight)
         activityView!.frame = CGRectMake((scrollWidth-footerHeight)/2, 0, footerHeight, footerHeight)
         
-        var currentPosition = scrollView!.contentOffset.y
+        let currentPosition = scrollView!.contentOffset.y
         
         if (currentPosition > contentHeight - scrollFrameHeight) && (contentHeight > scrollFrameHeight) {
             self.beginRefreshing()
@@ -96,6 +96,6 @@ class LMRefreshFooter: NSObject {
     
     deinit {
         scrollView!.removeObserver(self, forKeyPath: "contentOffset", context: nil)
-        println("LMRefreshHeader is being deInitialized.")
+        print("LMRefreshHeader is being deInitialized.")
     }
 }
